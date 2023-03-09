@@ -9,7 +9,7 @@ app = Flask(__name__)
 def main():
     return "<center><h1>HOLA ITE</h1></center><marquee>ADRIAN CHAD</marquee>"
 
-@app.route("/aboutprueba")
+@app.route("/about")
 def about():
     with open('cannapi.json',"r") as json:
         display = json.read()   
