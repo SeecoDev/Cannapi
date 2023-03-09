@@ -1,0 +1,14 @@
+{ 
+    "apiName": "Cannapi", 
+    "url": "cannapi.com/api", 
+    "description": "El proyecto a continuacion se trata de una API REST sobre Cannabis Sativa, asi como sus cepas o strains y sus productos derivados para el consumo tanto medico como ludico, asi como informacion general para llegar a un consumo responsable de esta planta, con el proposito de mejorar la salud publica de Mexico, ya que en Mexico el cannabis es ilegal actualmente, pero hay un amplio mercado y consumo ilegal del mismo.", 
+    "authors": ["Adrian Flores", "Antonio Vazquez"], 
+    "endpoints":[{ 
+        "url":"/flor/id", 
+        "limit":"666" 
+    },{ 
+        "url": "/concentrado/id", 
+        "limit":"666" 
+    }], 
+    "license": "cc-by-4.0" 
+}
