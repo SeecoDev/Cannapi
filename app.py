@@ -43,7 +43,18 @@ def database():
             'idFlor = ': row[0], 
             'nameFlor = ': row[1],
             'varietyFlor  = ': row[2],
-            'cultivoFlor  = ': row[3]
+            'cultivoFlor  = ': row[3],
+            'ctchFlor  = ': row[4],
+            'cdbFlor  = ': row[5],
+            'terpenesFlor  = ': row[6],
+            'efectsFlor  = ': row[7],
+            'tasteFlor  = ': row[8],
+            'dateFlor  = ': row[9],
+            'providerFlor  = ': row[10],
+            'colorsFlor  = ': row[11],
+            'awardsFlor  = ': row[12],
+            'priceFlor  = ': row[13],
+            'weightFlor  = ': row[14]
         })
         
     connection.close()
