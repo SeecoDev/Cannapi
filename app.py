@@ -2,21 +2,17 @@ from flask import Flask, jsonify
 import json;
 import mysql.connector;
 
-
-
 app = Flask(__name__)
-
-
 
 @app.route("/")
 def main():
-    return "<center><h1>HOLA ITE</h1></center><marquee>ADRIAN Y TONY CHAD</marquee>"
+    return "<center><h1>Deploy Chingon</h1></center><marquee>ADRIAN Y TONY CHAD</marquee>"
 
 @app.route("/about")
 def about():
-    with open('cannapi.json',"r") as json:
-        display = json.read()   
-        return jsonify(display)
+    f = open('cannapi.json')
+    display = json.load(f)
+    return jsonify(display)
 
 
 @app.route("/bye")
@@ -136,8 +132,8 @@ def dispensary():
 def strain():
     connection = mysql.connector.connect(host='localhost',
                                          database='cannapi',
-                                         user='root',
-                                         password='Tony12345')
+                                         user='deuz',
+                                         password='2Tostitos3!')
     
     sql_select_Query = "select * from strain"
     cursor = connection.cursor()
