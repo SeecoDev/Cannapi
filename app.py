@@ -17,7 +17,15 @@ def about():
 
 @app.route("/bye")
 def bye():
-    return "<h1> Recuerden fumar bandita</h1>"
+    return '<H1>recuerden fumar bandita<H1>'
+
+@app.route("/login/<user>/<passw>")
+def login(user, passw):
+    return jsonify(Saludo=f'Vas a fumar con el: {user}')
+
+@app.route("/register")
+def registro():
+    return jsonify(Saludo=f'este es el registro')
 
 @app.route("/api/sql/awards")
 def awards():
