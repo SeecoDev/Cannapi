@@ -11,13 +11,11 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Script de autogenerado de la base de datos con auto insercion de valores de prueba
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `cannapi` ;
-
 -- -----------------------------------------------------
 -- Schema cannapi
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `cannapi` ;
 USE `cannapi` ;
-
 -- -----------------------------------------------------
 -- Table `cannapi`.`awards`
 -- -----------------------------------------------------
