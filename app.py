@@ -38,7 +38,7 @@ class User(db.Model):
 class Log(db.Model):
     log_id = db.Column(db.Integer, primary_key = True)
     log_email = db.Column(db.String(70))
-    log_logdate = db.Column(db.String(80))
+    log_date = db.Column(db.String(80))
 
 class Strain(db.Model):
     strain_id = db.Column(db.Integer, primary_key=True)
@@ -86,6 +86,10 @@ class Concentrate(db.Model):
     concentrate_effects = db.Column(db.Text)
     concentrate_flavors = db.Column(db.Text)
     concentrate_description = db.Column(db.Text)
+
+
+with app.app_context():
+    db.create_all()
 
 # Funcion para obtener los datos del usuario
 def get_user_info():
