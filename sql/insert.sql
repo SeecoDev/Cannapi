@@ -52,12 +52,12 @@ VALUES
 
 INSERT INTO concentrate (concentrate_name, concentrate_strain, concentrate_thc, concentrate_cbd, concentrate_dose, concentrate_type, concentrate_effects, concentrate_flavors, concentrate_description)
 VALUES
-('Cristales de CBD', '1', 0.1, 79.9, 20, 'Cristales', 'Relajante, analgésico, antiinflamatorio', 'Cítricos, dulce, pino', 'Los cristales de CBD se obtienen a partir de cáñamo orgánico y son ideales para añadir a alimentos, bebidas y productos para el cuidado personal.'),
-('Aceite de CBD', '1', 0.2, 70, 10, 'Aceite', 'Alivio del dolor, reducción de la ansiedad, mejora del sueño', 'Dulce, terroso, picante', 'El aceite de CBD se obtiene a partir de plantas de cáñamo orgánico y se puede tomar directamente o mezclado con alimentos y bebidas.'),
-('BHO', '2', 76, 1, 50, 'BHO', 'Euforia, relajación, sedación', 'Dulce, pino, terroso', 'El BHO es un concentrado de cannabis que se obtiene mediante extracción con butano y tiene un alto contenido de THC.'),
-('Wax', '2', 74, 2, 30, 'Wax', 'Euforia, creatividad, relajación', 'Dulce, terroso, cítricos', 'El wax es un concentrado de cannabis que se obtiene mediante extracción con butano y tiene una textura similar a la cera.'),
-('Rosin', '3', 78, 1, 40, 'Rosin', 'Euforia, relajación, sedación', 'Dulce, pino, terroso', 'El rosin es un concentrado de cannabis que se obtiene mediante la aplicación de presión y calor a las flores de cannabis.'),
-('Kief', '4', 60, 1, 20, 'Kief', 'Euforia, estimulación, creatividad', 'Dulce, cítricos, picante', 'El kief es un concentrado de cannabis que se obtiene a partir de las glándulas de tricomas de las flores de cannabis.'),
-('Live Resin', '3', 70, 1, 30, 'Live Resin', 'Euforia, relajación, sedación', 'Dulce, terroso, cítricos', 'El live resin es un concentrado de cannabis que se obtiene mediante extracción con solventes de flores frescas y congeladas de cannabis.'),
-('Cristales de THC', '4', 99, 0.1, 10, 'Cristales', 'Euforia, relajación, sedación', 'Dulce, terroso, pino', 'Los cristales de cannabis son un tipo de concentrado de cannabis que se caracteriza por su alto contenido de THC');
+('Cristales de CBD', '1', '0.1', '79.9', '20', 'Cristales', 'Relajante, analgésico, antiinflamatorio', 'Cítricos, dulce, pino', 'Los cristales de CBD se obtienen a partir de cáñamo orgánico y son ideales para añadir a alimentos, bebidas y productos para el cuidado personal.'),
+('Aceite de CBD', '1', '0.2', '70', '10', 'Aceite', 'Alivio del dolor, reducción de la ansiedad, mejora del sueño', 'Dulce, terroso, picante', 'El aceite de CBD se obtiene a partir de plantas de cáñamo orgánico y se puede tomar directamente o mezclado con alimentos y bebidas.'),
+('BHO', '2', '76', '1', '50', 'BHO', 'Euforia, relajación, sedación', 'Dulce, pino, terroso', 'El BHO es un concentrado de cannabis que se obtiene mediante extracción con butano y tiene un alto contenido de THC.'),
+('Wax', '2', '74', '2', '30', 'Wax', 'Euforia, creatividad, relajación', 'Dulce, terroso, cítricos', 'El wax es un concentrado de cannabis que se obtiene mediante extracción con butano y tiene una textura similar a la cera.'),
+('Rosin', '3', '78', '1', '40', 'Rosin', 'Euforia, relajación, sedación', 'Dulce, pino, terroso', 'El rosin es un concentrado de cannabis que se obtiene mediante la aplicación de presión y calor a las flores de cannabis.'),
+('Kief', '4', '60', '1', '20', 'Kief', 'Euforia, estimulación, creatividad', 'Dulce, cítricos, picante', 'El kief es un concentrado de cannabis que se obtiene a partir de las glándulas de tricomas de las flores de cannabis.'),
+('Live Resin', '3', '70', '1', '30', 'Live Resin', 'Euforia, relajación, sedación', 'Dulce, terroso, cítricos', 'El live resin es un concentrado de cannabis que se obtiene mediante extracción con solventes de flores frescas y congeladas de cannabis.'),
+('Cristales de THC', '4', '99', '0.1', '10', 'Cristales', 'Euforia, relajación, sedación', 'Dulce, terroso, pino', 'Los cristales de cannabis son un tipo de concentrado de cannabis que se caracteriza por su alto contenido de THC');
 

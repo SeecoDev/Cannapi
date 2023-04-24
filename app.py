@@ -1,10 +1,13 @@
 # Flask
 from flask import Flask, jsonify, request, make_response
 from flask_sqlalchemy import SQLAlchemy
+
 # JWT
 import jwt
+
 # SQLITE3
 import sqlite3
+
 # Otros
 from  werkzeug.security import generate_password_hash, check_password_hash
 import uuid
@@ -24,17 +27,66 @@ db = SQLAlchemy(app)
 
 # Database ORMs
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    public_id = db.Column(db.String(50), unique = True)
-    name = db.Column(db.String(100))
-    email = db.Column(db.String(70), unique = True)
-    password = db.Column(db.String(80))
-    registerdate = db.Column(db.String(80))
+    user_id = db.Column(db.Integer, primary_key = True)
+    user_public = db.Column(db.String(50), unique = True)
+    user_name = db.Column(db.String(100))
+    user_email = db.Column(db.String(70), unique = True)
+    user_password = db.Column(db.String(80))
+    user_registerdate = db.Column(db.String(80))
 
 class Log(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(70))
-    logdate = db.Column(db.String(80))
+    log_id = db.Column(db.Integer, primary_key = True)
+    log_email = db.Column(db.String(70))
+    log_logdate = db.Column(db.String(80))
+
+class Strain(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    strain_name = db.Column(db.String(255))
+    strain_type = db.Column(db.String(255))
+    strain_year = db.Column(db.Integer)
+    strain_thc = db.Column(db.Float)
+    strain_cbd = db.Column(db.Float)
+    strain_description = db.Column(db.Text)
+    strain_effects = db.Column(db.Text)
+    strain_flavors = db.Column(db.Text)
+
+class Creator(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    creators_name = db.Column(db.String(255))
+    creators_country = db.Column(db.String(255))
+    creators_mail = db.Column(db.String(255))
+    creators_phone = db.Column(db.String(255))
+    creators_license = db.Column(db.String(255))
+    creators_strain = db.Column(db.String(255))
+    creators_lab = db.Column(db.String(255))
+
+class Dispensary(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    dispensary_name = db.Column(db.String(255))
+    dispensary_state = db.Column(db.String(255))
+    dispensary_city = db.Column(db.String(255))
+    dispensary_address = db.Column(db.String(255))
+    dispensary_phone = db.Column(db.String(255))
+    dispensary_mail = db.Column(db.String(255))
+
+class Award(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    awards_name = db.Column(db.String(255))
+    awards_date = db.Column(db.Date)
+    awards_entity = db.Column(db.String(255))
+    awards_winner = db.Column(db.String(255))
+
+class Concentrate(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    concentrate_name = db.Column(db.String(255))
+    concentrate_strain = db.Column(db.String(255))
+    concentrate_thc = db.Column(db.Float)
+    concentrate_cbd = db.Column(db.Float)
+    concentrate_dose = db.Column(db.String(255))
+    concentrate_type = db.Column(db.String(255))
+    concentrate_effects = db.Column(db.Text)
+    concentrate_flavors = db.Column(db.Text)
+    concentrate_description = db.Column(db.Text)
 
 # Funcion para obtener los datos del usuario
 def get_user_info():
@@ -127,22 +179,20 @@ def register():
     data = request.form
     name, email = data.get('name'), data.get('email')
     password = data.get('password')
-
-
     user = User.query\
         .filter_by(email = email)\
         .first()
     if not user:
         user = User(
-            public_id = str(uuid.uuid4()),
-            name = name,
-            email = email,
-            password = generate_password_hash(password),
-            registerdate = datetime.now()
+            user_public = str(uuid.uuid4()),
+            user_name = name,
+            user_email = email,
+            user_password = generate_password_hash(password),
+            user_registerdate = datetime.now()
         )
         log = Log(
-            email = email,
-            logdate = datetime.now())
+            log_email = email,
+            log_date = datetime.now())
         # insert user
         db.session.add(user)
         db.session.add(log)
@@ -172,122 +222,63 @@ def bye():
 @app.route("/awards")
 @token_required
 def awards():
-    connection = mysql.connector.connect(host='DeuZzz.mysql.pythonanywhere-services.com',
-                                         database='DeuZzz$cannapi',
-                                     user='DeuZzz',
-                                         password='AdrianYTony')
-    sql_select_Query = "select * from awards"
-    cursor = connection.cursor()
-    cursor.execute(sql_select_Query)
-    records = cursor.fetchall()
-    datos_json = []
-    for row in records:
-        datos_json.append({
-            'awards_index = ': row[0],
-            'awards_name = ': row[1],
-            'awards_date  = ': row[2],
-            'awards_entity  = ': row[3],
-            'awards_winner  = ': row[4],
-        })
-    connection.close()
-    return jsonify(datos_json)
+    awards = Award.query.all()
+    data = {
+        award.__dict__ for award in awards
+    }
+    return jsonify(data)
 
-@app.route("/concentrate")
+@app.route('/api', methods=['GET'])
+@token_required
+def get_data():
+    strains = Strain.query.all()
+    creators = Creator.query.all()
+    dispensaries = Dispensary.query.all()
+    awards = Award.query.all()
+    concentrates = Concentrate.query.all()
+    data = {
+        'strains': [strain.__dict__ for strain in strains],
+        'creators': [creator.__dict__ for creator in creators],
+        'dispensaries': [dispensary.__dict__ for dispensary in dispensaries],
+        'awards': [award.__dict__ for award in awards],
+        'concentrates': [concentrate.__dict__ for concentrate in concentrates]
+    }
+    return jsonify(data)
+
+@app.route("/concentrate", methods=['GET'])
 @token_required
 def concentrate():
-    connection = mysql.connector.connect(host='DeuZzz.mysql.pythonanywhere-services.com',
-                                         database='DeuZzz$cannapi',
-                                         user='DeuZzz',
-                                         password='AdrianYTony')
+    concentrates = Concentrate.query,all()
+    data = {
+        concentrate.__dict__ for concentrate in concentrates
+    }
+    return jsonify(data)
 
-    sql_select_Query = "select * from concentrate"
-    cursor = connection.cursor()
-    cursor.execute(sql_select_Query)
-    records = cursor.fetchall()
-    datos_json = []
-    for row in records:
-        datos_json.append({
-            'concentrate_id = ': row[0],
-            'concentrate_name = ': row[1],
-            'concentrate_strain  = ': row[2],
-            'concentrate_thc = ': row[3],
-            'concentrate_cbd  = ': row[4],
-            'concentrate_dose  = ': row[5],
-            'concentrate_type = ': row[6],
-            'concentrate_effects  = ': row[7],
-            'concentrate_flavors  = ': row[8],
-            'concentrate_description  = ': row[9],
-            'concentrate_id  = ': row[10]
-        })
-
-    connection.close()
-    return jsonify(datos_json)
-
-@app.route("/creators")
+@app.route("/creators", methods=['GET'])
 @token_required
 def creators():
-    connection = mysql.connector.connect(host='DeuZzz.mysql.pythonanywhere-services.com',
-                                         database='DeuZzz$cannapi',
-                                         user='DeuZzz',
-                                         password='AdrianYTony')
+    creators =  Creator.query.all()
+    data = {
+        creator.__dict__ for creator in creators
+    }
+    return jsonify(data)
 
-    sql_select_Query = "select * from creators"
-    cursor = connection.cursor()
-    cursor.execute(sql_select_Query)
-    records = cursor.fetchall()
-    datos_json = []
-    for row in records:
-        datos_json.append({
-            'creators_index = ': row[0],
-            'creators_name = ': row[1],
-            'creators_country  = ': row[2],
-            'creators_mail = ': row[3],
-            'creators_phone  = ': row[4],
-            'creators_license  = ': row[5],
-            'creators_strain  = ': row[6],
-            'creators_lab  = ': row[7]
-        })
-    connection.close()
-    return jsonify(datos_json)
-
-@app.route("/dispensary")
+@app.route("/dispensary", methods=['GET'])
 @token_required
 def dispensary():
+    dispensaries = Dispensary.query.all()
+    data = {
+        dispensary.__dict__ for dispensary in dispensaries
+    }
+    return jsonify(data)
 
-    connection = mysql.connector.connect(host='DeuZzz.mysql.pythonanywhere-services.com',
-                                         database='DeuZzz$cannapi',
-                                         user='DeuZzz',
-                                         password='AdrianYTony')
-
-    sql_select_Query = "select * from dispensary"
-    cursor = connection.cursor()
-    cursor.execute(sql_select_Query)
-    records = cursor.fetchall()
-    datos_json = []
-    for row in records:
-        datos_json.append({
-            'dispensary_index = ': row[0],
-            'dispensary_name = ': row[1],
-            'dispensary_state  = ': row[2],
-            'dispensary_city = ': row[3],
-            'dispensary_address  = ': row[4],
-            'dispensary_phone  = ': row[5],
-            'dispensary_mail  = ': row[6],
-            'dispensary_strains  = ': row[7],
-            'dispensary_products  = ': row[8]
-        })
-
-    connection.close()
-    return jsonify(datos_json)
-
-@app.route("/strain")
+@app.route("/strain", methods=['GET'])
 @token_required
 def strain():
-    connection = sqlite3.connect("cannalite.db")
-    cursor = connection.cursor()
-    rows = cursor.execute("SELECT * from strains").fetchall()
-    cursor.close()
-    connection.close()
-    return jsonify(rows)
+    strains = Strain.query.all()
+    data = {
+        strain.__dict__ for strain in strains
+    }
+    return jsonify(data)
 
 
