@@ -19,6 +19,7 @@ from user_agents import parse
 
 # Objeto de Flask
 app = Flask(__name__)
+# SECRET KEY
 app.config['SECRET_KEY'] = 'BeethovenWeed'
 # COnfiguracion de la base de datos con SQLalchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cannalite.db'
@@ -40,7 +41,7 @@ class Log(db.Model):
     log_logdate = db.Column(db.String(80))
 
 class Strain(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    strain_id = db.Column(db.Integer, primary_key=True)
     strain_name = db.Column(db.String(255))
     strain_type = db.Column(db.String(255))
     strain_year = db.Column(db.Integer)
@@ -51,33 +52,31 @@ class Strain(db.Model):
     strain_flavors = db.Column(db.Text)
 
 class Creator(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
     creators_name = db.Column(db.String(255))
     creators_country = db.Column(db.String(255))
     creators_mail = db.Column(db.String(255))
     creators_phone = db.Column(db.String(255))
-    creators_license = db.Column(db.String(255))
+    creators_license = db.Column(db.String(255), primary_key= True)
     creators_strain = db.Column(db.String(255))
     creators_lab = db.Column(db.String(255))
 
 class Dispensary(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
     dispensary_name = db.Column(db.String(255))
     dispensary_state = db.Column(db.String(255))
     dispensary_city = db.Column(db.String(255))
     dispensary_address = db.Column(db.String(255))
     dispensary_phone = db.Column(db.String(255))
-    dispensary_mail = db.Column(db.String(255))
+    dispensary_mail = db.Column(db.String(255), primary_key = True)
 
 class Award(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    awards_id = db.Column(db.Integer, primary_key=True)
     awards_name = db.Column(db.String(255))
     awards_date = db.Column(db.Date)
     awards_entity = db.Column(db.String(255))
     awards_winner = db.Column(db.String(255))
 
 class Concentrate(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    concentrate_id = db.Column(db.Integer, primary_key=True)
     concentrate_name = db.Column(db.String(255))
     concentrate_strain = db.Column(db.String(255))
     concentrate_thc = db.Column(db.Float)
@@ -119,7 +118,7 @@ def token_required(f):
             # decode del payload
             data = jwt.decode(token, app.config['SECRET_KEY'])
             current_user = User.query\
-                .filter_by(public_id = data['public_id'])\
+                .filter_by(user_public = data['public_id'])\
                 .first()
         except:
             return jsonify({
@@ -148,9 +147,7 @@ def login():
             {'WWW-Authenticate' : 'Basic realm ="Login required !!"'}
         )
 
-    user = User.query\
-        .filter_by(email = auth.get('email'))\
-        .first()
+    user = User.query.filter_by(user_email = auth.get('email')).first()
 
     if not user:
         # returns 401 if user does not exist
@@ -160,7 +157,7 @@ def login():
             {'WWW-Authenticate' : 'Basic realm ="User does not exist !!"'}
         )
 
-    if check_password_hash(user.password, auth.get('password')):
+    if check_password_hash(user.user_password, auth.get('password')):
         user_info = get_user_info()
         token = jwt.encode({
             'user': request.form['username'],
@@ -179,9 +176,7 @@ def register():
     data = request.form
     name, email = data.get('name'), data.get('email')
     password = data.get('password')
-    user = User.query\
-        .filter_by(email = email)\
-        .first()
+    user = User.query.filter_by(user_email = email).first()
     if not user:
         user = User(
             user_public = str(uuid.uuid4()),
@@ -219,15 +214,6 @@ def about():
 def bye():
     return "<h1> Recuerden fumar bandita</h1>"
 
-@app.route("/awards")
-@token_required
-def awards():
-    awards = Award.query.all()
-    data = {
-        award.__dict__ for award in awards
-    }
-    return jsonify(data)
-
 @app.route('/api', methods=['GET'])
 @token_required
 def get_data():
@@ -245,12 +231,21 @@ def get_data():
     }
     return jsonify(data)
 
+@app.route("/awards", methods =['GET'])
+@token_required
+def awards():
+    awards = Award.query.all()
+    data = {
+       [award.__dict__ for award in awards]
+    }
+    return jsonify(data)
+
 @app.route("/concentrate", methods=['GET'])
 @token_required
 def concentrate():
     concentrates = Concentrate.query,all()
     data = {
-        concentrate.__dict__ for concentrate in concentrates
+        [concentrate.__dict__ for concentrate in concentrates]
     }
     return jsonify(data)
 
@@ -259,7 +254,7 @@ def concentrate():
 def creators():
     creators =  Creator.query.all()
     data = {
-        creator.__dict__ for creator in creators
+        [creator.__dict__ for creator in creators]
     }
     return jsonify(data)
 
@@ -268,7 +263,7 @@ def creators():
 def dispensary():
     dispensaries = Dispensary.query.all()
     data = {
-        dispensary.__dict__ for dispensary in dispensaries
+        [dispensary.__dict__ for dispensary in dispensaries]
     }
     return jsonify(data)
 
@@ -277,8 +272,9 @@ def dispensary():
 def strain():
     strains = Strain.query.all()
     data = {
-        strain.__dict__ for strain in strains
+        [strain.__dict__ for strain in strains]
     }
     return jsonify(data)
 
-
+if __name__ == '__main__':
+    app.run(debug = True)

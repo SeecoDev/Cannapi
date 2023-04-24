@@ -2,7 +2,7 @@
 Link:https://github.com/SeecoDev/Cannapi.git
 Author(s): Adrian Flores, Antonio Vazquez
 Status: Draft 
-Ultima Actualizacion: 02/03/2023
+Ultima Actualizacion: 24/04/2023
 
 # Contenido
 - [Cannapi](#cannapi)
@@ -52,10 +52,9 @@ El proyecto a continuacion se trata de una API REST sobre Cannabis Sativa, asi c
 # Metricas
 
 # Requerimientos 
-a continuacion instalar los archivos en requerimientos.txt
+A continuacion instalar los archivos en requirements.txt
 
-> pip install -r requirimientos.txt
-> pip install mysql-python-connector
+> pip install -r requirements.txt
 
 de preferencia esto debe estar en un ENV
 
