@@ -88,8 +88,8 @@ class Concentrate(db.Model):
     concentrate_description = db.Column(db.Text)
 
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 # Funcion para obtener los datos del usuario
 def get_user_info():
@@ -165,7 +165,7 @@ def login():
         user_info = get_user_info()
         token = jwt.encode({
             'user': request.form['username'],
-            'expiration': str(datetime.utcnow() + timedelta(seconds=120)),
+            'expiration': str(datetime.utcnow() + timedelta(minutes=10)),
             'user_os': user_info['os'],
             'user_browser': user_info['browser']
         },
@@ -236,11 +236,11 @@ def get_data():
     return jsonify(data)
 
 @app.route("/awards", methods =['GET'])
-@token_required
+# @token_required
 def awards():
     awards = Award.query.all()
     data = {
-       [award.__dict__ for award in awards]
+       'awards': [award.__dict__ for award in awards]
     }
     return jsonify(data)
 
